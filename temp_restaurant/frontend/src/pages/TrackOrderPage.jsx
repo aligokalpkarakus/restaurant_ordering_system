@@ -3,9 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const statusMap = {
-  received: { label: 'Sipariş Alındı', color: 'bg-yellow-400 text-yellow-900' },
-  preparing: { label: 'Hazırlanıyor', color: 'bg-blue-500 text-white' },
-  ready: { label: 'Hazır', color: 'bg-green-500 text-white' },
+  received: { label: 'Order Received', color: 'bg-yellow-400 text-yellow-900' },
+  preparing: { label: 'Preparing', color: 'bg-blue-500 text-white' },
+  ready: { label: 'Ready', color: 'bg-green-500 text-white' },
 };
 
 const TrackOrderPage = () => {
@@ -63,10 +63,10 @@ const TrackOrderPage = () => {
       <div className="bg-white/95 rounded-3xl shadow-2xl p-8 w-full max-w-2xl border border-gray-200">
         <h1 className="text-3xl font-extrabold text-blue-900 drop-shadow-sm text-center mb-6">Your Orders</h1>
         <div className="space-y-6">
-          {orders.map(order => (
+          {orders.map((order, idx) => (
             <div key={order.id} className="border border-gray-200 rounded-xl p-4">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-blue-900">Order #{order.id}</h2>
+                <h2 className="text-xl font-bold text-blue-900">Order #{idx + 1}</h2>
                 <span className={`px-5 py-2 rounded-full text-lg font-bold shadow ${statusMap[order.status]?.color || 'bg-gray-300 text-gray-700'}`}>
                   {statusMap[order.status]?.label || order.status}
                 </span>

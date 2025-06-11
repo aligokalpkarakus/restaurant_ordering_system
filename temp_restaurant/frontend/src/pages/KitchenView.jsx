@@ -8,9 +8,9 @@ const statusColors = {
 };
 
 const statusLabels = {
-  pending: 'Bekliyor',
-  preparing: 'Hazırlanıyor',
-  ready: 'Hazır',
+  pending: 'Pending',
+  preparing: 'Preparing',
+  ready: 'Ready',
 };
 
 const KitchenView = () => {
