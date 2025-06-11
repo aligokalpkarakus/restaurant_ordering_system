@@ -51,7 +51,7 @@ const Login = () => {
           setError('Yetkisiz kullanıcı!');
         }
       } else {
-        setError('Geçersiz e-posta veya şifre');
+        setError('Invalid email or password');
       }
     } catch (err) {
       console.error('Login error:', err);
