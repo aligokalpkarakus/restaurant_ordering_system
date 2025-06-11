@@ -118,30 +118,47 @@ const UserManagement = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #a1c4fd 100%)', p: 4 }}>
-      <Paper elevation={6} sx={{ maxWidth: 1100, mx: 'auto', p: 4, borderRadius: 4, boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)' }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-          <Typography variant="h4" fontWeight="bold">User Management</Typography>
+      <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+          <Typography variant="h3" fontWeight="bold" color="primary">User Management</Typography>
           <Button
             variant="contained"
             startIcon={<AddIcon />}
             onClick={() => handleOpen()}
+            sx={{
+              px: 4,
+              py: 1.5,
+              borderRadius: 2,
+              fontWeight: 600,
+              fontSize: 18,
+              boxShadow: '0 2px 8px rgba(25,118,210,0.08)',
+              transition: 'transform 0.2s',
+              '&:hover': {
+                transform: 'translateY(-2px)'
+              }
+            }}
           >
             Add User
           </Button>
         </Box>
-        <Grid container spacing={3}>
+        <Grid container spacing={4}>
           {users.map((user) => (
             <Grid item xs={12} sm={6} md={4} key={user.id}>
               <Card sx={{
                 borderRadius: 4,
-                boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)',
-                p: 2,
-                minHeight: 140,
+                boxShadow: '0 8px 32px 0 rgba(0,0,0,0.10)',
+                p: 3,
+                minHeight: 160,
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 1,
                 background: 'linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%)',
-                position: 'relative'
+                position: 'relative',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                '&:hover': {
+                  transform: 'translateY(-8px) scale(1.03)',
+                  boxShadow: '0 16px 48px 0 rgba(25,118,210,0.15)'
+                }
               }}>
                 <CardContent sx={{ pb: '16px !important' }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
@@ -165,7 +182,7 @@ const UserManagement = () => {
             </Grid>
           ))}
         </Grid>
-      </Paper>
+      </Box>
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{selectedUser ? 'Edit User' : 'Add User'}</DialogTitle>

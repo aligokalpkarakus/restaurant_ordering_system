@@ -50,18 +50,18 @@ const PaymentPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-blue-50 py-12">
       <div className="max-w-2xl mx-auto px-4">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-extrabold text-blue-900 mb-2 drop-shadow-sm">Ödeme</h1>
-          <p className="text-lg text-gray-500">Siparişinizi tamamlamak için ödeme yöntemi seçin</p>
+          <h1 className="text-4xl font-extrabold text-blue-900 mb-2 drop-shadow-sm">Payment</h1>
+          <p className="text-lg text-gray-500">Select a payment method to complete your order</p>
         </div>
         <div className="bg-white/95 rounded-3xl shadow-2xl overflow-hidden mb-8 border border-gray-200">
           <div className="p-8">
-            <h2 className="text-xl font-bold text-blue-900 mb-4">Sipariş Özeti</h2>
+            <h2 className="text-xl font-bold text-blue-900 mb-4">Order Summary</h2>
             <div className="space-y-4">
               {cart.map(item => (
                 <div key={item.id} className="flex justify-between items-center py-2 border-b last:border-b-0">
                   <div>
                     <p className="font-medium text-gray-900 text-lg">{item.name}</p>
-                    <p className="text-sm text-gray-500">Adet: {item.quantity}</p>
+                    <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
                   </div>
                   <p className="font-medium text-orange-500 text-lg">{(item.price * item.quantity).toFixed(2)}₺</p>
                 </div>
@@ -69,7 +69,7 @@ const PaymentPage = () => {
             </div>
             <div className="mt-6 pt-6 border-t">
               <div className="flex justify-between items-center">
-                <span className="text-lg font-semibold text-gray-900">Toplam</span>
+                <span className="text-lg font-semibold text-gray-900">Total</span>
                 <span className="text-2xl font-extrabold text-orange-500">{total.toFixed(2)}₺</span>
               </div>
             </div>
@@ -77,7 +77,7 @@ const PaymentPage = () => {
         </div>
         <div className="bg-white/95 rounded-3xl shadow-2xl overflow-hidden mb-8 border border-gray-200">
           <div className="p-8">
-            <h2 className="text-xl font-bold text-blue-900 mb-4">Ödeme Yöntemi</h2>
+            <h2 className="text-xl font-bold text-blue-900 mb-4">Payment Method</h2>
             <div className="space-y-4">
               <label className={`flex items-center p-4 border rounded-xl cursor-pointer transition-colors duration-200 gap-3 ${paymentMethod === 'cash' ? 'bg-orange-50 border-orange-400 shadow' : 'hover:bg-gray-50'}`}>
                 <input
@@ -89,8 +89,8 @@ const PaymentPage = () => {
                 />
                 <span className="text-2xl">💵</span>
                 <div>
-                  <span className="block text-base font-semibold text-gray-900">Nakit</span>
-                  <span className="block text-sm text-gray-500">Kasada ödeme yapın</span>
+                  <span className="block text-base font-semibold text-gray-900">Cash</span>
+                  <span className="block text-sm text-gray-500">Pay with cash at the counter</span>
                 </div>
               </label>
               <label className={`flex items-center p-4 border rounded-xl cursor-pointer transition-colors duration-200 gap-3 ${paymentMethod === 'credit_card' ? 'bg-orange-50 border-orange-400 shadow' : 'hover:bg-gray-50'}`}>
@@ -103,8 +103,8 @@ const PaymentPage = () => {
                 />
                 <span className="text-2xl">💳</span>
                 <div>
-                  <span className="block text-base font-semibold text-gray-900">Kredi Kartı</span>
-                  <span className="block text-sm text-gray-500">Kartınızla ödeme yapın</span>
+                  <span className="block text-base font-semibold text-gray-900">Credit Card</span>
+                  <span className="block text-sm text-gray-500">Pay with your card</span>
                 </div>
               </label>
             </div>
@@ -125,10 +125,10 @@ const PaymentPage = () => {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              İşleniyor...
+              Processing...
             </div>
           ) : (
-            'Ödemeyi Tamamla'
+            'Complete Payment'
           )}
         </button>
       </div>

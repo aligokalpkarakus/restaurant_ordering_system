@@ -87,77 +87,87 @@ const KitchenView = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
-          <h1 className="text-3xl font-bold text-gray-900">Mutfak Paneli</h1>
-          <div className="flex gap-4 flex-wrap">
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #a1c4fd 100%)', padding: 32 }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginBottom: 32 }}>
+          <h1 style={{ fontSize: 36, fontWeight: 700, color: '#1976d2', textAlign: 'center' }}>Kitchen Panel</h1>
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
             <select
-              className="px-3 py-2 rounded border border-gray-300 bg-white shadow-sm"
+              style={{ padding: '10px 18px', borderRadius: 8, border: '1px solid #bdbdbd', background: '#fff', boxShadow: '0 2px 8px #0001', fontWeight: 600 }}
               value={tableFilter}
               onChange={e => setTableFilter(e.target.value)}
             >
-              <option value="all">Tüm Masalar</option>
+              <option value="all">All Tables</option>
               {uniqueTables.map(tableId => (
-                <option key={tableId} value={tableId}>Masa {tableId}</option>
+                <option key={tableId} value={tableId}>Table {tableId}</option>
               ))}
             </select>
             <select
-              className="px-3 py-2 rounded border border-gray-300 bg-white shadow-sm"
+              style={{ padding: '10px 18px', borderRadius: 8, border: '1px solid #bdbdbd', background: '#fff', boxShadow: '0 2px 8px #0001', fontWeight: 600 }}
               value={statusFilter}
               onChange={e => setStatusFilter(e.target.value)}
             >
-              <option value="all">Tüm Durumlar</option>
-              <option value="pending">Bekliyor</option>
-              <option value="preparing">Hazırlanıyor</option>
-              <option value="ready">Hazır</option>
+              <option value="all">All Statuses</option>
+              <option value="pending">Pending</option>
+              <option value="preparing">Preparing</option>
+              <option value="ready">Ready</option>
             </select>
           </div>
         </div>
-        <div className="overflow-x-auto rounded-lg shadow bg-white">
-          <table className="min-w-full text-sm">
-            <thead className="bg-gray-50 sticky top-0 z-10">
+        <div style={{ overflowX: 'auto', borderRadius: 16, boxShadow: '0 8px 32px 0 rgba(0,0,0,0.10)', background: '#fff' }}>
+          <table style={{ width: '100%', fontSize: 15, borderCollapse: 'separate', borderSpacing: 0 }}>
+            <thead style={{ background: 'linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%)', position: 'sticky', top: 0, zIndex: 10 }}>
               <tr>
-                <th className="py-3 px-4 text-left font-semibold">Sipariş No</th>
-                <th className="py-3 px-4 text-left font-semibold">Masa</th>
-                <th className="py-3 px-4 text-left font-semibold">Durum</th>
-                <th className="py-3 px-4 text-left font-semibold">Ürünler</th>
-                <th className="py-3 px-4 text-left font-semibold">İşlem</th>
+                <th style={{ padding: '18px 16px', textAlign: 'left', fontWeight: 700, fontSize: 16 }}>Order No</th>
+                <th style={{ padding: '18px 16px', textAlign: 'left', fontWeight: 700, fontSize: 16 }}>Table</th>
+                <th style={{ padding: '18px 16px', textAlign: 'left', fontWeight: 700, fontSize: 16 }}>Status</th>
+                <th style={{ padding: '18px 16px', textAlign: 'left', fontWeight: 700, fontSize: 16 }}>Items</th>
+                <th style={{ padding: '18px 16px', textAlign: 'left', fontWeight: 700, fontSize: 16 }}>Action</th>
               </tr>
             </thead>
             <tbody>
               {filteredOrders.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="text-center py-8 text-gray-400">Sipariş yok</td>
+                  <td colSpan={5} style={{ textAlign: 'center', padding: 48, color: '#bbb', fontSize: 18 }}>No orders</td>
                 </tr>
               ) : (
                 filteredOrders.map(order => (
-                  <tr key={order.id} className="border-b hover:bg-gray-50 transition">
-                    <td className="py-3 px-4 font-bold">#{order.id}</td>
-                    <td className="py-3 px-4">{order.table_id}</td>
-                    <td className="py-3 px-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${statusColors[order.status]}`}>{statusLabels[order.status]}</span>
+                  <tr key={order.id} style={{ borderBottom: '1px solid #e0e0e0', transition: 'background 0.2s', cursor: 'pointer', ':hover': { background: '#e3f2fd' } }}>
+                    <td style={{ padding: '16px', fontWeight: 700, color: '#1976d2' }}>#{order.id}</td>
+                    <td style={{ padding: '16px' }}>{order.table_id}</td>
+                    <td style={{ padding: '16px' }}>
+                      <span style={{ padding: '6px 18px', borderRadius: 16, fontWeight: 600, fontSize: 15, background: order.status === 'pending' ? '#fffde7' : order.status === 'preparing' ? '#e3f2fd' : '#e8f5e9', color: order.status === 'pending' ? '#fbc02d' : order.status === 'preparing' ? '#1976d2' : '#2e7d32' }}>{statusLabels[order.status]}</span>
                     </td>
-                    <td className="py-3 px-4">
-                      <ul className="list-disc pl-5 space-y-1">
+                    <td style={{ padding: '16px' }}>
+                      <ul style={{ margin: 0, paddingLeft: 18, fontSize: 15 }}>
                         {order.items.map(item => (
                           <li key={item.id}>{menuItems[item.menu_item_id]?.name || item.menu_item_name} x {item.quantity}</li>
                         ))}
                       </ul>
                     </td>
-                    <td className="py-3 px-4">
+                    <td style={{ padding: '16px' }}>
                       {order.status !== 'ready' && (
                         <button
                           onClick={() => updateStatus(order.id, order.status)}
-                          className={`px-4 py-2 rounded-lg text-white font-medium shadow transition ${
-                            order.status === 'pending' ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-blue-500 hover:bg-blue-600'
-                          }`}
+                          style={{
+                            padding: '10px 24px',
+                            borderRadius: 8,
+                            fontWeight: 600,
+                            fontSize: 15,
+                            color: '#fff',
+                            background: order.status === 'pending' ? '#fbc02d' : '#1976d2',
+                            border: 'none',
+                            cursor: 'pointer',
+                            boxShadow: '0 2px 8px #0001',
+                            transition: 'background 0.2s',
+                            marginRight: 8
+                          }}
                         >
-                          {order.status === 'pending' ? 'Hazırlamaya Başla' : 'Hazır Olarak İşaretle'}
+                          {order.status === 'pending' ? 'Start Preparing' : 'Mark as Ready'}
                         </button>
                       )}
                       {order.status === 'ready' && (
-                        <span className="text-green-600 font-semibold">Hazır</span>
+                        <span style={{ color: '#2e7d32', fontWeight: 700, fontSize: 16 }}>Ready</span>
                       )}
                     </td>
                   </tr>

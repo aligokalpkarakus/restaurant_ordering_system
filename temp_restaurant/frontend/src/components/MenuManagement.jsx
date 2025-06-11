@@ -154,182 +154,242 @@ const MenuManagement = () => {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-        <Typography variant="h4">Menu Management</Typography>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => handleOpen()}
-        >
-          Add Menu Item
-        </Button>
-      </Box>
-
-      <Tabs
-        value={selectedCategory}
-        onChange={(e, newValue) => setSelectedCategory(newValue)}
-        sx={{ mb: 3 }}
-      >
-        {categories.map((category) => (
-          <Tab key={category} value={category} label={category} />
-        ))}
-      </Tabs>
-
-      <Grid container spacing={3}>
-        {menuItems.map((item) => (
-          <Grid item xs={12} sm={6} md={4} key={item.id}>
-            <Card>
-              {item.image_url && (
-                <CardMedia
-                  component="img"
-                  image={`http://localhost:8000${item.image_url}`}
-                  alt={item.name}
-                  sx={{
-                    width: '100%',
-                    aspectRatio: '16/9',
-                    objectFit: 'cover',
-                    borderRadius: 2,
-                    background: '#eee'
-                  }}
-                  onError={e => { e.target.onerror = null; e.target.src = '/placeholder.png'; }}
-                />
-              )}
-              <CardContent>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Typography variant="h6">{item.name}</Typography>
-                  <Box>
-                    <IconButton onClick={() => handleOpen(item)}>
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton onClick={() => handleDelete(item.id)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </Box>
-                </Box>
-                <Typography color="textSecondary" gutterBottom>
-                  {item.description}
-                </Typography>
-                <Typography variant="body2" color="secondary" sx={{ fontWeight: 500, mb: 1 }}>
-                  {item.dietary_info}
-                </Typography>
-                <Typography variant="h6" color="primary">
-                  ₺{item.price}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-        <DialogTitle>{selectedItem ? 'Edit Menu Item' : 'Add Menu Item'}</DialogTitle>
-        <DialogContent>
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-            <TextField
-              fullWidth
-              label="Name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              margin="normal"
-              required
-            />
-            <TextField
-              fullWidth
-              label="Description"
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              margin="normal"
-              multiline
-              rows={3}
-              required
-            />
-            <TextField
-              fullWidth
-              label="Price"
-              type="number"
-              value={formData.price}
-              onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-              margin="normal"
-              required
-            />
-            <FormControl fullWidth margin="normal">
-              <InputLabel>Category</InputLabel>
-              <Select
-                value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                label="Category"
-              >
-                {categories.map((category) => (
-                  <MenuItem key={category} value={category}>
-                    {category}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <TextField
-              fullWidth
-              label="Dietary Info"
-              value={formData.dietary_info}
-              onChange={(e) => setFormData({ ...formData, dietary_info: e.target.value })}
-              margin="normal"
-              placeholder="Vegan, Gluten-Free, etc."
-            />
-            <Button
-              variant="outlined"
-              component="label"
-              fullWidth
-              sx={{ mt: 2 }}
-              disabled={uploading}
-            >
-              {uploading ? 'Uploading...' : 'Upload Image'}
-              <input
-                type="file"
-                hidden
-                accept="image/*"
-                onChange={handleImageChange}
-              />
-            </Button>
-            {formData.image_url && (
-              <Box sx={{ mt: 2 }}>
-                <img
-                  src={`http://localhost:8000${formData.image_url}`}
-                  alt="Preview"
-                  style={{
-                    width: '100%',
-                    aspectRatio: '16/9',
-                    objectFit: 'cover',
-                    borderRadius: 8,
-                    boxShadow: '0 2px 8px #0002',
-                    background: '#eee'
-                  }}
-                  onError={e => { e.target.onerror = null; e.target.src = '/placeholder.png'; }}
-                />
-              </Box>
-            )}
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit} variant="contained">
-            {selectedItem ? 'Update' : 'Add'}
+    <Box sx={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #a1c4fd 100%)', p: 4 }}>
+      <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+          <Typography variant="h3" fontWeight="bold" color="primary">Menu Management</Typography>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => handleOpen()}
+            sx={{
+              px: 4,
+              py: 1.5,
+              borderRadius: 2,
+              fontWeight: 600,
+              fontSize: 18,
+              boxShadow: '0 2px 8px rgba(25,118,210,0.08)',
+              transition: 'transform 0.2s',
+              '&:hover': {
+                transform: 'translateY(-2px)'
+              }
+            }}
+          >
+            Add Menu Item
           </Button>
-        </DialogActions>
-      </Dialog>
+        </Box>
 
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-      >
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity={snackbar.severity}
-          sx={{ width: '100%' }}
+        <Tabs
+          value={selectedCategory}
+          onChange={(e, newValue) => setSelectedCategory(newValue)}
+          sx={{
+            mb: 4,
+            '& .MuiTab-root': {
+              fontWeight: 600,
+              fontSize: 18,
+              borderRadius: 2,
+              px: 3,
+              py: 1,
+              mx: 1,
+              transition: 'all 0.2s',
+              '&:hover': {
+                background: 'rgba(25,118,210,0.08)',
+                transform: 'translateY(-2px)'
+              }
+            }
+          }}
         >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
+          {categories.map((category) => (
+            <Tab key={category} value={category} label={category} />
+          ))}
+        </Tabs>
+
+        <Grid container spacing={4}>
+          {menuItems.map((item) => (
+            <Grid item xs={12} sm={6} md={4} key={item.id}>
+              <Card
+                elevation={4}
+                sx={{
+                  p: 3,
+                  borderRadius: 4,
+                  minHeight: 260,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 2,
+                  boxShadow: '0 8px 32px 0 rgba(0,0,0,0.10)',
+                  background: 'linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%)',
+                  position: 'relative',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  '&:hover': {
+                    transform: 'translateY(-8px) scale(1.03)',
+                    boxShadow: '0 16px 48px 0 rgba(25,118,210,0.15)'
+                  }
+                }}
+              >
+                {item.image_url && (
+                  <CardMedia
+                    component="img"
+                    image={`http://localhost:8000${item.image_url}`}
+                    alt={item.name}
+                    sx={{
+                      width: '100%',
+                      aspectRatio: '16/9',
+                      objectFit: 'cover',
+                      borderRadius: 3,
+                      background: '#eee',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.12)'
+                    }}
+                    onError={e => { e.target.onerror = null; e.target.src = '/placeholder.png'; }}
+                  />
+                )}
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                    <Typography variant="h6" fontWeight="bold">{item.name}</Typography>
+                    <Box>
+                      <IconButton
+                        color="primary"
+                        onClick={() => handleOpen(item)}
+                        sx={{
+                          transition: 'transform 0.2s',
+                          '&:hover': {
+                            transform: 'scale(1.1)'
+                          }
+                        }}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        color="error"
+                        onClick={() => handleDelete(item.id)}
+                        sx={{
+                          transition: 'transform 0.2s',
+                          '&:hover': {
+                            transform: 'scale(1.1)'
+                          }
+                        }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Box>
+                  </Box>
+                  <Typography color="text.secondary" sx={{ mb: 1 }}>{item.description}</Typography>
+                  <Typography fontWeight="bold" color="primary" sx={{ fontSize: 18 }}>₺{item.price}</Typography>
+                  <Typography variant="caption" color="secondary" fontWeight={600}>{item.dietary_info}</Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+
+        <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+          <DialogTitle>{selectedItem ? 'Edit Menu Item' : 'Add Menu Item'}</DialogTitle>
+          <DialogContent>
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+              <TextField
+                fullWidth
+                label="Name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                margin="normal"
+                required
+              />
+              <TextField
+                fullWidth
+                label="Description"
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                margin="normal"
+                multiline
+                rows={3}
+                required
+              />
+              <TextField
+                fullWidth
+                label="Price"
+                type="number"
+                value={formData.price}
+                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                margin="normal"
+                required
+              />
+              <FormControl fullWidth margin="normal">
+                <InputLabel>Category</InputLabel>
+                <Select
+                  value={formData.category}
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  label="Category"
+                >
+                  {categories.map((category) => (
+                    <MenuItem key={category} value={category}>
+                      {category}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <TextField
+                fullWidth
+                label="Dietary Info"
+                value={formData.dietary_info}
+                onChange={(e) => setFormData({ ...formData, dietary_info: e.target.value })}
+                margin="normal"
+                placeholder="Vegan, Gluten-Free, etc."
+              />
+              <Button
+                variant="outlined"
+                component="label"
+                fullWidth
+                sx={{ mt: 2 }}
+                disabled={uploading}
+              >
+                {uploading ? 'Uploading...' : 'Upload Image'}
+                <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+              </Button>
+              {formData.image_url && (
+                <Box sx={{ mt: 2 }}>
+                  <img
+                    src={`http://localhost:8000${formData.image_url}`}
+                    alt="Preview"
+                    style={{
+                      width: '100%',
+                      aspectRatio: '16/9',
+                      objectFit: 'cover',
+                      borderRadius: 8,
+                      boxShadow: '0 2px 8px #0002',
+                      background: '#eee'
+                    }}
+                    onError={e => { e.target.onerror = null; e.target.src = '/placeholder.png'; }}
+                  />
+                </Box>
+              )}
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleSubmit} variant="contained">
+              {selectedItem ? 'Update' : 'Add'}
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+        >
+          <Alert
+            onClose={handleCloseSnackbar}
+            severity={snackbar.severity}
+            sx={{ width: '100%' }}
+          >
+            {snackbar.message}
+          </Alert>
+        </Snackbar>
+      </Box>
     </Box>
   );
 };

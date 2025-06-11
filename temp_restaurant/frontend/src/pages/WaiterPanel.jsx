@@ -67,62 +67,95 @@ const WaiterPanel = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-blue-50 p-8">
-      <h1 className="text-3xl font-bold text-blue-900 mb-8">Garson Paneli</h1>
-      {loading ? (
-        <div>Yükleniyor...</div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
-          {tables.map(table => {
-            const session = sessions[table.id];
-            return (
-              <div key={table.id} className="bg-white rounded-2xl shadow p-6 border border-gray-200 flex flex-col gap-3 min-h-[260px]">
-                <div className="flex items-center justify-between">
-                  <span className="text-xl font-bold text-blue-800">Masa {table.id}</span>
-                  <span className={table.is_occupied ? 'bg-red-100 text-red-700 px-3 py-1 rounded-full' : 'bg-green-100 text-green-700 px-3 py-1 rounded-full'}>
-                    {table.is_occupied ? 'Dolu' : 'Boş'}
-                  </span>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #a1c4fd 100%)', padding: 32 }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <h1 style={{ fontSize: 36, fontWeight: 700, color: '#1976d2', marginBottom: 32, textAlign: 'center' }}>Waiter Panel</h1>
+        {loading ? (
+          <div style={{ textAlign: 'center', fontSize: 20, color: '#888' }}>Loading...</div>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 32 }}>
+            {tables.map(table => {
+              const session = sessions[table.id];
+              return (
+                <div
+                  key={table.id}
+                  style={{
+                    background: table.is_occupied
+                      ? 'linear-gradient(135deg, #ffe0e3 0%, #fff 100%)'
+                      : 'linear-gradient(135deg, #e0f7fa 0%, #fff 100%)',
+                    borderRadius: 20,
+                    boxShadow: '0 8px 32px 0 rgba(0,0,0,0.10)',
+                    padding: 28,
+                    minHeight: 260,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 16,
+                    border: 'none',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    position: 'relative',
+                    ':hover': {
+                      transform: 'translateY(-8px) scale(1.03)',
+                      boxShadow: '0 16px 48px 0 rgba(25,118,210,0.15)'
+                    }
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                    <span style={{ fontSize: 22, fontWeight: 700, color: '#1976d2' }}>Table {table.id}</span>
+                    <span style={{
+                      background: table.is_occupied ? '#ffebee' : '#e8f5e9',
+                      color: table.is_occupied ? '#d32f2f' : '#2e7d32',
+                      padding: '6px 18px',
+                      borderRadius: 16,
+                      fontWeight: 600,
+                      fontSize: 15
+                    }}>{table.is_occupied ? 'Occupied' : 'Empty'}</span>
+                  </div>
+                  {session ? (
+                    <>
+                      <div style={{ fontSize: 15, color: '#555', marginBottom: 8 }}>Active Session: #{session.id}</div>
+                      <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+                        <button
+                          onClick={() => handleEndSession(session.id)}
+                          style={{ background: '#ff9800', color: '#fff', padding: '8px 20px', borderRadius: 8, fontWeight: 600, fontSize: 15, border: 'none', cursor: 'pointer', transition: 'background 0.2s' }}
+                        >End Session</button>
+                      </div>
+                      <div style={{ background: '#f8fafc', borderRadius: 12, padding: 16, marginTop: 8 }}>
+                        <div style={{ fontWeight: 600, color: '#1976d2', marginBottom: 8 }}>Orders</div>
+                        {orders[session.id] && orders[session.id].length > 0 ? (
+                          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                            {orders[session.id].map((order, idx) => (
+                              <li key={order.id} style={{ borderBottom: '1px solid #e0e0e0', padding: '8px 0', marginBottom: 4 }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                  <span style={{ fontWeight: 700, color: '#333' }}>Order #{idx + 1}</span>
+                                  <span style={{ fontSize: 13, padding: '3px 10px', borderRadius: 12, background: '#e3f2fd', color: '#1976d2', fontWeight: 600 }}>{order.status}</span>
+                                </div>
+                                <ul style={{ marginLeft: 12, fontSize: 14, color: '#555', marginTop: 4 }}>
+                                  {order.items.map(item => (
+                                    <li key={item.id}>
+                                      {item.menu_item_name} <span style={{ color: '#ff9800', fontWeight: 700 }}>x{item.quantity}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <div style={{ color: '#bbb', fontSize: 14 }}>No orders</div>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => handleStartSession(table.id)}
+                      style={{ background: '#1976d2', color: '#fff', padding: '10px 24px', borderRadius: 8, fontWeight: 600, fontSize: 16, border: 'none', cursor: 'pointer', transition: 'background 0.2s' }}
+                    >Start Session</button>
+                  )}
                 </div>
-                {session ? (
-                  <>
-                    <div className="text-sm text-gray-600">Aktif Oturum: #{session.id}</div>
-                    <div className="flex gap-2 mb-2">
-                      <button onClick={() => handleEndSession(session.id)} className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-semibold">Oturumu Bitir</button>
-                    </div>
-                    {/* Aktif oturuma ait siparişler */}
-                    <div className="bg-gray-50 rounded-xl p-3 mt-2">
-                      <div className="font-semibold text-blue-900 mb-2">Siparişler</div>
-                      {orders[session.id] && orders[session.id].length > 0 ? (
-                        <ul className="space-y-1">
-                          {orders[session.id].map((order, idx) => (
-                            <li key={order.id} className="border-b last:border-b-0 py-1">
-                              <div className="flex justify-between items-center">
-                                <span className="font-bold text-gray-800">Sipariş #{idx + 1}</span>
-                                <span className="text-xs px-2 py-1 rounded-full bg-gray-200 text-gray-700">{order.status}</span>
-                              </div>
-                              <ul className="ml-2 text-sm text-gray-700">
-                                {order.items.map(item => (
-                                  <li key={item.id}>
-                                    {item.menu_item_name} <span className="text-orange-600 font-bold">x{item.quantity}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <div className="text-gray-400 text-sm">Sipariş yok</div>
-                      )}
-                    </div>
-                  </>
-                ) : (
-                  <button onClick={() => handleStartSession(table.id)} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold">Oturum Başlat</button>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      )}
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -23,14 +23,14 @@ const OrderPage = () => {
       navigate("/track-order", { state: { tableId } });
     } catch (err) {
       console.error(err);
-      alert("Sipariş oluşturulurken bir hata oluştu!");
+      alert("An error occurred while creating the order!");
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-blue-50 flex items-center justify-center py-12">
       <div className="bg-white/95 rounded-3xl shadow-2xl p-8 w-full max-w-lg border border-gray-200">
-        <h1 className="text-3xl font-extrabold text-blue-900 mb-6 drop-shadow-sm text-center">Sepet Onayı</h1>
+        <h1 className="text-3xl font-extrabold text-blue-900 mb-6 drop-shadow-sm text-center">Cart Confirmation</h1>
         <ul className="divide-y divide-gray-100 mb-6">
           {cart.map(item => (
             <li key={item.id} className="py-3 flex justify-between items-center">
@@ -44,13 +44,13 @@ const OrderPage = () => {
             onClick={() => navigate(-1)}
             className="w-1/2 py-4 rounded-2xl text-gray-700 font-bold text-lg shadow-xl transition-all duration-200 bg-gray-100 hover:bg-gray-200"
           >
-            Geri Dön
+            Go Back
           </button>
           <button
             onClick={handleSubmit}
             className="w-1/2 py-4 rounded-2xl text-white font-bold text-lg shadow-xl transition-all duration-200 bg-green-500 hover:bg-green-600"
           >
-            Siparişi Onayla
+            Confirm Order
           </button>
         </div>
       </div>

@@ -69,24 +69,24 @@ const RecipeManagement = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #a1c4fd 100%)', p: 4 }}>
-      <Paper elevation={6} sx={{ maxWidth: 1100, mx: 'auto', p: 4, borderRadius: 4, boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)' }}>
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-          <Typography variant="h4" fontWeight="bold">Recipe Management</Typography>
-          <Button variant="contained" startIcon={<AddIcon />} onClick={handleOpen}>Add Recipe</Button>
+      <Paper elevation={6} sx={{ maxWidth: 1200, mx: 'auto', p: 4, borderRadius: 4, boxShadow: '0 8px 32px 0 rgba(0,0,0,0.10)' }}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+          <Typography variant="h3" fontWeight="bold" color="primary">Recipe Management</Typography>
+          <Button variant="contained" startIcon={<AddIcon />} onClick={handleOpen} sx={{ px: 4, py: 1.5, borderRadius: 2, fontWeight: 600, fontSize: 18, boxShadow: '0 2px 8px rgba(25,118,210,0.08)', transition: 'transform 0.2s', '&:hover': { transform: 'translateY(-2px)' } }}>Add Recipe</Button>
         </Box>
-        <TableContainer component={Paper} sx={{ mb: 3 }}>
+        <TableContainer component={Paper} sx={{ mb: 3, borderRadius: 4, boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)', background: 'linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%)' }}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Menu Item</TableCell>
-                <TableCell>Ingredient</TableCell>
-                <TableCell>Amount</TableCell>
-                <TableCell>Action</TableCell>
+                <TableCell sx={{ fontWeight: 700, fontSize: 16 }}>Menu Item</TableCell>
+                <TableCell sx={{ fontWeight: 700, fontSize: 16 }}>Ingredient</TableCell>
+                <TableCell sx={{ fontWeight: 700, fontSize: 16 }}>Amount</TableCell>
+                <TableCell sx={{ fontWeight: 700, fontSize: 16 }}>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {recipes.map(r => (
-                <TableRow key={r.id}>
+                <TableRow key={r.id} sx={{ transition: 'background 0.2s', '&:hover': { background: '#e3f2fd' } }}>
                   <TableCell>{menuItems.find(m => m.id === r.menu_item_id)?.name || r.menu_item_id}</TableCell>
                   <TableCell>{inventory.find(i => i.id === r.inventory_item_id)?.item_name || r.inventory_item_id}</TableCell>
                   <TableCell>{r.amount}</TableCell>

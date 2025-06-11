@@ -10,10 +10,12 @@ import {
   Container,
   Alert,
   InputAdornment,
-  IconButton
+  IconButton,
+  Paper
 } from '@mui/material';
 import { useAuth } from '../contexts/AuthContext';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Visibility, VisibilityOff, Email, Lock } from '@mui/icons-material';
+import { Restaurant } from '@mui/icons-material';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -60,30 +62,60 @@ const Login = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          background: 'linear-gradient(135deg, #f8fafc 0%, #a1c4fd 100%)',
-        }}
-      >
-        <Card sx={{ width: '100%', boxShadow: 6, borderRadius: 4 }}>
-          <CardContent>
-            <Typography component="h1" variant="h4" align="center" fontWeight={700} gutterBottom>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #f8fafc 0%, #a1c4fd 100%)',
+        py: 4
+      }}
+    >
+      <Container maxWidth="sm">
+        <Paper
+          elevation={6}
+          sx={{
+            borderRadius: 4,
+            overflow: 'hidden',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)'
+          }}
+        >
+          <Box
+            sx={{
+              background: 'linear-gradient(45deg, #1976d2 30%, #2196f3 90%)',
+              py: 4,
+              px: 3,
+              textAlign: 'center'
+            }}
+          >
+            <Restaurant sx={{ fontSize: 48, color: 'white', mb: 2 }} />
+            <Typography variant="h4" component="h1" sx={{ color: 'white', fontWeight: 700 }}>
               Restaurant Management
             </Typography>
-            <Typography component="h2" variant="h6" align="center" color="text.secondary" gutterBottom>
-              Login
+            <Typography variant="subtitle1" sx={{ color: 'rgba(255,255,255,0.9)', mt: 1 }}>
+              Staff Login Portal
             </Typography>
+          </Box>
+
+          <CardContent sx={{ p: 4 }}>
             {error && (
-              <Alert severity="error" sx={{ mb: 2 }}>
+              <Alert 
+                severity="error" 
+                sx={{ 
+                  mb: 3,
+                  borderRadius: 2,
+                  '& .MuiAlert-icon': {
+                    color: 'error.main'
+                  }
+                }}
+              >
                 {error}
               </Alert>
             )}
+
             <Box component="form" onSubmit={handleSubmit} noValidate>
               <TextField
                 margin="normal"
@@ -96,6 +128,21 @@ const Login = () => {
                 autoFocus
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Email color="action" />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: 2,
+                    '&:hover fieldset': {
+                      borderColor: 'primary.main',
+                    },
+                  },
+                }}
               />
               <TextField
                 margin="normal"
@@ -109,6 +156,11 @@ const Login = () => {
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Lock color="action" />
+                    </InputAdornment>
+                  ),
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
@@ -121,21 +173,41 @@ const Login = () => {
                     </InputAdornment>
                   ),
                 }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: 2,
+                    '&:hover fieldset': {
+                      borderColor: 'primary.main',
+                    },
+                  },
+                }}
               />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, fontWeight: 700, fontSize: 16 }}
                 disabled={loading}
+                sx={{
+                  mt: 4,
+                  mb: 2,
+                  py: 1.5,
+                  borderRadius: 2,
+                  fontSize: '1.1rem',
+                  fontWeight: 600,
+                  textTransform: 'none',
+                  boxShadow: '0 4px 12px rgba(25, 118, 210, 0.2)',
+                  '&:hover': {
+                    boxShadow: '0 6px 16px rgba(25, 118, 210, 0.3)',
+                  },
+                }}
               >
-                {loading ? 'Logging in...' : 'Login'}
+                {loading ? 'Logging in...' : 'Sign In'}
               </Button>
             </Box>
           </CardContent>
-        </Card>
-      </Box>
-    </Container>
+        </Paper>
+      </Container>
+    </Box>
   );
 };
 

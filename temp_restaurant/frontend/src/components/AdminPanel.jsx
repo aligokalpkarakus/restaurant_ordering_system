@@ -15,7 +15,9 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Divider
+  Divider,
+  Paper,
+  Avatar
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -118,80 +120,48 @@ const AdminPanel = () => {
         </Box>
       </Drawer>
 
-      <Box sx={{ flexGrow: 1, p: 3 }}>
-        <Typography variant="h4" gutterBottom>
-          Dashboard
-        </Typography>
-
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card>
-              <CardContent>
-                <Typography color="textSecondary" gutterBottom>
-                  Total Users
-                </Typography>
-                <Typography variant="h5">
-                  {stats.user_count}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card>
-              <CardContent>
-                <Typography color="textSecondary" gutterBottom>
-                  Total Tables
-                </Typography>
-                <Typography variant="h5">
-                  {stats.table_count}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card>
-              <CardContent>
-                <Typography color="textSecondary" gutterBottom>
-                  Menu Items
-                </Typography>
-                <Typography variant="h5">
-                  {stats.menu_count}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card>
-              <CardContent>
-                <Typography color="textSecondary" gutterBottom>
-                  Total Reports
-                </Typography>
-                <Typography variant="h5">
-                  {stats.report_count}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-
-        <Box sx={{ mt: 4 }}>
-          <Typography variant="h5" gutterBottom>
-            Quick Actions
+      <Box sx={{ flexGrow: 1, p: 3, background: 'linear-gradient(135deg, #f8fafc 0%, #a1c4fd 100%)', minHeight: '100vh' }}>
+        <Paper elevation={6} sx={{ maxWidth: 1100, mx: 'auto', p: 4, borderRadius: 4, boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)' }}>
+          <Typography variant="h3" fontWeight="bold" mb={4} align="center" color="primary">
+            Admin Dashboard
           </Typography>
-          <Grid container spacing={2}>
-            {menuItems.map((item) => (
-              <Grid item key={item.text}>
-                <Button
-                  variant="contained"
-                  startIcon={item.icon}
-                  onClick={() => navigate(item.path)}
-                >
-                  {item.text}
-                </Button>
-              </Grid>
-            ))}
+          <Grid container spacing={3} justifyContent="center" mb={2}>
+            <Grid item xs={12} sm={6} md={4}>
+              <Card elevation={4} sx={{ p: 2, borderRadius: 4, textAlign: 'center', boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)', background: 'linear-gradient(135deg, #e3f2fd 0%, #fff 100%)', transition: 'transform 0.2s, box-shadow 0.2s', '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 8px 24px rgba(0,0,0,0.12)' } }}>
+                <Avatar sx={{ bgcolor: 'white', mx: 'auto', mb: 1, width: 56, height: 56, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}><PeopleIcon color="primary" /></Avatar>
+                <Typography variant="h5" fontWeight="bold">{stats.user_count}</Typography>
+                <Typography color="text.secondary" fontWeight={500}>Total Users</Typography>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Card elevation={4} sx={{ p: 2, borderRadius: 4, textAlign: 'center', boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)', background: 'linear-gradient(135deg, #e8f5e9 0%, #fff 100%)', transition: 'transform 0.2s, box-shadow 0.2s', '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 8px 24px rgba(0,0,0,0.12)' } }}>
+                <Avatar sx={{ bgcolor: 'white', mx: 'auto', mb: 1, width: 56, height: 56, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}><TableIcon color="success" /></Avatar>
+                <Typography variant="h5" fontWeight="bold">{stats.table_count}</Typography>
+                <Typography color="text.secondary" fontWeight={500}>Total Tables</Typography>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Card elevation={4} sx={{ p: 2, borderRadius: 4, textAlign: 'center', boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)', background: 'linear-gradient(135deg, #fff3e0 0%, #fff 100%)', transition: 'transform 0.2s, box-shadow 0.2s', '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 8px 24px rgba(0,0,0,0.12)' } }}>
+                <Avatar sx={{ bgcolor: 'white', mx: 'auto', mb: 1, width: 56, height: 56, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}><RestaurantIcon color="secondary" /></Avatar>
+                <Typography variant="h5" fontWeight="bold">{stats.menu_count}</Typography>
+                <Typography color="text.secondary" fontWeight={500}>Menu Items</Typography>
+              </Card>
+            </Grid>
           </Grid>
-        </Box>
+          <Box mt={6}>
+            <Typography variant="h5" fontWeight="bold" mb={2} color="primary">Quick Actions</Typography>
+            <Grid container spacing={3} justifyContent="center">
+              {[{ label: 'Menu Management', icon: <RestaurantIcon />, color: 'primary', path: '/admin/menu' }, { label: 'Table Management', icon: <TableIcon />, color: 'success', path: '/admin/tables' }, { label: 'Recipe Management', icon: <ReceiptIcon />, color: 'secondary', path: '/admin/recipes' }, { label: 'User Management', icon: <PeopleIcon />, color: 'info', path: '/admin/users' }, { label: 'Reports', icon: <AssessmentIcon />, color: 'warning', path: '/admin/reports' }].map((action, idx) => (
+                <Grid item xs={12} sm={6} md={4} lg={2} key={action.label}>
+                  <Card elevation={3} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', p: 3, borderRadius: 4, minHeight: 120, boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)', background: 'linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%)', transition: 'transform 0.2s, box-shadow 0.2s', '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 8px 24px rgba(0,0,0,0.12)' } }}>
+                    <Avatar sx={{ bgcolor: 'white', color: 'primary.main', mb: 1, width: 48, height: 48, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>{action.icon}</Avatar>
+                    <Button variant="contained" color={action.color} size="large" fullWidth sx={{ mt: 1, fontWeight: 600, borderRadius: 2, px: 2, py: 1.2, fontSize: 16, letterSpacing: 1, boxShadow: 'none', textTransform: 'none', transition: 'background 0.2s', '&:hover': { background: 'rgba(25, 118, 210, 0.08)' } }} onClick={() => navigate(action.path)}>{action.label}</Button>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </Paper>
       </Box>
     </Box>
   );

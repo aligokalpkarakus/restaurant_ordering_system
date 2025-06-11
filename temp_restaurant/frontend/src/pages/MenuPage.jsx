@@ -71,15 +71,15 @@ const MenuPage = () => {
       <div className="bg-white/90 shadow-md sticky top-0 z-20 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div>
-            <h1 className="text-3xl font-extrabold text-blue-900 tracking-tight drop-shadow-sm">Masa {tableId}</h1>
-            <p className="mt-1 text-base text-gray-500">Dijital Menü</p>
+            <h1 className="text-3xl font-extrabold text-blue-900 tracking-tight drop-shadow-sm">Table {tableId}</h1>
+            <p className="mt-1 text-base text-gray-500">Digital Menu</p>
           </div>
           <div className="flex gap-2 mt-2 sm:mt-0">
             <button onClick={() => navigate('/track-order', { state: { tableId: parseInt(tableId) } })} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-xl shadow-md transition-all text-base">
-              Siparişlerim
+              My Orders
             </button>
             <button onClick={() => window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})} className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-5 py-2 rounded-xl shadow-md transition-all text-base">
-              Sepetim ({cart.length})
+              My Cart ({cart.length})
             </button>
           </div>
         </div>
@@ -88,7 +88,7 @@ const MenuPage = () => {
       {/* Category Filter */}
       <div className="max-w-7xl mx-auto px-4 pt-8 pb-2">
         <h2 className="text-2xl font-bold text-blue-800 mb-4 flex items-center gap-2">
-          <span className="text-2xl">🍽️</span> Kategoriler
+          <span className="text-2xl">🍽️</span> Categories
         </h2>
         <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide">
           <button
@@ -99,7 +99,7 @@ const MenuPage = () => {
                 : 'bg-white text-orange-600 hover:bg-orange-50'
             }`}
           >
-            Tümü
+            All
           </button>
           {categories.map(category => (
             <button
@@ -145,7 +145,7 @@ const MenuPage = () => {
             navigate(`/track-order/${lastOrderId}`);
           }}
         >
-          Siparişi Takip Et
+          Track Order
         </button>
       )}
     </div>
